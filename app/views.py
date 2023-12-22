@@ -4,26 +4,15 @@ from rest_framework.response import Response
 from rest_framework import generics
 from .models import *
 from .serializer import * 
+from django.http import JsonResponse
 
 def home(request):
     return render(request, "home.html")
 
-class GradeView(generics.ListCreateAPIView):
-    queryset = Grade.objects.all()
-    serializer_class = GradeSerializer
-    def get(self, request):
-        output = [{"grade_id": output.grade_id, 
-                   "title": output.title, 
-                   "description": output.description, 
-                   "units": output.units}
-                  for output in Grade.objects.all()]
-        return Response(output)
-    
-    def post(self, request):
-        serializer = GradeSerializer(data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            serializer.save()
-            return Response(serializer.data)
+def get_grades(request):
+    grades = Grade.objects.all()
+    serializer = GradeSerializer(grades, many=True)
+    return JsonResponse(serializer.data, safe=False)
 
 class UnitView(generics.ListCreateAPIView):
     queryset = Unit.objects.all()
