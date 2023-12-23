@@ -9,64 +9,40 @@ from django.http import JsonResponse
 def home(request):
     return render(request, "home.html")
 
+# All data
+def grades(request):
+    grades = Grade.objects.all()
+    return render(request, 'grades.html', {'grades': grades})
+
+def units(request):
+    units = Unit.objects.all()
+    return render(request, 'units.html', {'units': units})
+
+def lessons(request):
+    lessons = Lesson.objects.all()
+    return render(request, 'lessons.html', {'lessons': lessons})
+
+def problems(request):
+    problems = Problem.objects.all()
+    return render(request, 'problems.html', {'problems': problems})
+
+# Query data by id (data sent to frontend)
 def get_grades(request):
     grades = Grade.objects.all()
     serializer = GradeSerializer(grades, many=True)
     return JsonResponse(serializer.data, safe=False)
 
-class UnitView(generics.ListCreateAPIView):
-    queryset = Unit.objects.all()
-    serializer_class = UnitSerializer
-    def get(self, request):
-        output = [{"grade": output.grade, 
-                   "unit_id": output.unit_id, 
-                   "title": output.title, 
-                   "description": output.description, 
-                   "lessons": output.lessons}
-                  for output in Unit.objects.all()]
-        return Response(output)
-    
-    def post(self, request):
-        serializer = UnitSerializer(data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            serializer.save()
-            return Response(serializer.data)
-        
-class LessonView(generics.ListCreateAPIView):
-    queryset = Lesson.objects.all()
-    serializer_class = LessonSerializer
-    def get(self, request):
-        output = [{"unit": output.unit, 
-                   "lesson_id": output.lesson_id, 
-                   "title": output.title, 
-                   "description": output.description, 
-                   "content": output.content, 
-                   "problems": output.problems}
-                  for output in Lesson.objects.all()]
-        return Response(output)
-    
-    def post(self, request):
-        serializer = LessonSerializer(data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            serializer.save()
-            return Response(serializer.data)
+def get_units(request, grade_id):
+    units = Unit.objects.filter(grade__grade_id=grade_id)
+    serializer = UnitSerializer(units, many=True)
+    return JsonResponse(serializer.data, safe=False)
 
-class ProblemView(generics.ListCreateAPIView):
-    queryset = Problem.objects.all()
-    serializer_class = ProblemSerializer
-    def get(self, request):
-        output = [{"lesson": output.lesson, 
-                   "text_question": output.text_question, 
-                   "num_answer": output.num_answer, 
-                   "answer_a": output.answer_a, 
-                   "answer_b": output.answer_b, 
-                   "answer_c": output.answer_c, 
-                   "answer_d": output.answer_d}
-                  for output in Problem.objects.all()]
-        return Response(output)
-    
-    def post(self, request):
-        serializer = ProblemSerializer(data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            serializer.save()
-            return Response(serializer.data)
+def get_lessons(request, grade_id, unit_id):
+    lessons = Lesson.objects.filter(unit__grade__grade_id=grade_id, unit__unit_id=unit_id)
+    serializer = LessonSerializer(lessons, many=True)
+    return JsonResponse(serializer.data, safe=False)
+
+def get_problems(request, grade_id, unit_id, lesson_id):
+    problems = Problem.objects.filter(lesson__unit__grade__grade_id=grade_id, lesson__unit__unit_id=unit_id, lesson__lesson_id=lesson_id)
+    serializer = ProblemSerializer(problems, many=True)
+    return JsonResponse(serializer.data, safe=False)
