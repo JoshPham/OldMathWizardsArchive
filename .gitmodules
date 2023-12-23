@@ -1,4 +1,4 @@
 [submodule "frontend"]
-	path = frontend
-	url = https://github.com/JoshPham/MathWizardsFrontend
-	branch = main
+    path = frontend
+    url = https://github.com/JoshPham/MathWizardsFrontend.git
+    branch = main
