@@ -13,19 +13,19 @@
     <table border="1">
         <thead>
             <tr>
+                <th>Grade</th>
                 <th>Unit ID</th>
                 <th>Title</th>
                 <th>Description</th>
-                <th>Grade</th>
             </tr>
         </thead>
         <tbody>
             {% for unit in units %}
                 <tr>
+                    <td>{{ unit.grade.title }}</td>
                     <td>{{ unit.unit_id }}</td>
                     <td>{{ unit.title }}</td>
                     <td>{{ unit.description }}</td>
-                    <td>{{ unit.grade.title }}</td>
                 </tr>
             {% endfor %}
         </tbody>
