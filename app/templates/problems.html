@@ -13,6 +13,8 @@
     <table border="1">
         <thead>
             <tr>
+                <th>Grade</th>
+                <th>Unit</th>
                 <th>Problem ID</th>
                 <th>Text Question</th>
                 <th>Number of Answers</th>
@@ -22,13 +24,13 @@
                 <th>Answer D</th>
                 <th>Letter Answer</th>
                 <th>Lesson</th>
-                <th>Unit</th>
-                <th>Grade</th>
             </tr>
         </thead>
         <tbody>
             {% for problem in problems %}
                 <tr>
+                    <td>{{ problem.lesson.unit.grade.title }}</td>
+                    <td>{{ problem.lesson.unit.title }}</td>
                     <td>{{ problem.id }}</td>
                     <td>{{ problem.text_question }}</td>
                     <td>{{ problem.num_answer }}</td>
@@ -38,8 +40,6 @@
                     <td>{{ problem.answer_d }}</td>
                     <td>{{ problem.letter_answer }}</td>
                     <td>{{ problem.lesson.title }}</td>
-                    <td>{{ problem.lesson.unit.title }}</td>
-                    <td>{{ problem.lesson.unit.grade.title }}</td>
                 </tr>
             {% endfor %}
         </tbody>
