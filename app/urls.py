@@ -12,7 +12,7 @@ urlpatterns = [
     path('all-problems/', problems, name='all_problems'),
     
     # Frontend data
-    path('grade/', get_grades, name="get_grades_by_id"),
+    path('grades/', get_grades, name="get_grades_by_id"),
     path('units/<int:grade_id>/', get_units, name='get_units_by_grade'),
     path('lessons/<int:grade_id>/<int:unit_id>/', get_lessons, name='get_lessons_by_unit'),
     path('problems/<int:grade_id>/<int:unit_id>/<int:lesson_id>/', get_problems, name='get_problems_by_lesson'),
