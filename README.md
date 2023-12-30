@@ -1,5 +1,13 @@
 # MathWizards
-This is my TSA Project for Software Design. This is a math tutor for grades K-5
+This is my TSA Project for Software Design. This is a math tutor for grades K-5.
+
+Members:
+- Josh Pham
+- Mahdi Salloum
+- Syed Rizvi
+- Tarang Teredesai
+- Aditya Kruthiventi
+- Nathaniel Jocson
 
 ## Additional Info
 If you are trying to pull from this repository, and want to import some example grades, units, lessons, and problems, you can use the following code statements in a python shell (in the django root direction):
